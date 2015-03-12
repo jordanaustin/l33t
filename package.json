@@ -1,0 +1,40 @@
+{
+	"name"   : "l33t",
+	"version": "0.0.1",
+	"author" : "Abashkin Alexander <monolithed@gmail.com>",
+	"homepage": "https://github.com/monolithed/l33t.git",
+
+	"description": "Leet (or '1337'), also known as eleet or leetspeak is an alternative alphabet for the English language that is used primarily on the Internet.",
+
+	"keywords": [ "leet", "1337", "eleet", "leetspeak" ],
+
+	"man": "README.md",
+
+	"engines": {
+		"node": ">=0.10.28"
+	},
+
+	"repository": {
+		"type": "git",
+		"url" :  "https://github.com/monolithed/l33t.git"
+	},
+
+	"bugs": {
+		"url": "https://github.com/monolithed/l33t/issues"
+	},
+
+	"scripts": {
+		"test": "nodeunit tests/index.js"
+	},
+
+	"devDependencies": {
+		"nodeunit": "^0.9.1"
+	},
+
+	"licenses": [
+		{
+			"type": "MIT",
+			"url" : "http://www.opensource.org/licenses/mit-license.php"
+		}
+	]
+}
