@@ -51,6 +51,8 @@ var Leet = function (digit) {
 };
 
 Leet.prototype = {
+	constructor: Leet,
+
 	/* Orthography list of the characters */
 	symbols: symbols,
 
