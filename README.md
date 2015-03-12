@@ -48,7 +48,7 @@ leet.encode('leet'); // |_[-[-+
 var leet = new Leet; 
 
 leet.symbols = { 
-	a: ['/-\'']
+	a: ['/-\\']
 };
 
 leet.encode('a'); // /-\ 
