@@ -11,18 +11,18 @@
 *Leet (or "1337"), also known as eleet or leetspeak is an alternative alphabet for the English language that is used primarily on the Internet.*
 
 
-##License
+## License
 	MIT
 
 
-##Synopsis:
+## Synopsis:
 
 ```javascript
 Object Leet ([Boolean digit = false])
 ```
 
 
-##Installation:
+## Installation:
 
 ```shell
 npm install l33t --save-dev
