@@ -1,7 +1,7 @@
 # l33t
 
-[![npm version badge](https://img.shields.io/npm/v/l33t.svg)](https://www.npmjs.org/package/grunt-mocha-client)
-[![Build Status](https://travis-ci.org/monolithed/l33t.png)](https://travis-ci.org/monolithed/grunt-mocha-client)
+[![npm version badge](https://img.shields.io/npm/v/l33t.svg)](https://www.npmjs.org/package/l33t)
+[![Build Status](https://travis-ci.org/monolithed/l33t.png)](https://travis-ci.org/monolithed/l33t)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.txt)
 
 
