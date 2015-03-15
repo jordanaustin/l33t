@@ -18,7 +18,7 @@
 ## Synopsis:
 
 ```javascript
-Object Leet ([Boolean digit = false])
+Object Leet ([{ numeric: false, random: false }])
 ```
 
 
@@ -40,87 +40,118 @@ leet.encode('leet'); // |_[-[-+
 
 ### API
 
-#### .symbols
+#### .set
 
-*Use a custom symbol-table*
+*Use custom symbol*
 
 ```
 var leet = new Leet; 
 
-leet.symbols = { 
-	a: ['/-\\']
-};
+leet.set('symbols', {
+	c: '<',
+	d: '[)'
+});
 
-leet.encode('a'); // /-\ 
+leet.encode('abcd'); /-\\|3<[) 
 ```
 
 #### .phrases
 
-*Use a custom phrase-table*
+*Use custom phrases*
 
 ```
 var leet = new Leet; 
 
-leet.phrases = {
-	one: ['один']
+leet.set('phrases', {
+	one : 'один',
+	some: '<0M3',
+});
+
+leet.encode('one two abcd some'); // один 2 /-\\|3[) <0M3 
+```
+
+#### .numeric
+
+*Use custom phrases*
+
+```
+var leet = new Leet({ numeric: true });
+
+leet.set('numeric', {
+	a: 0,
+	0: 1,
+});
+
+leet.encode('one a 0'); // 1 0 1 
+```
+
+
+#### options.numeric
+
+*An alternative numeric view*
+
+```
+var leet = new Leet({numeric: true}); 
+
+leet.encode('leet'); // 1337
+```
+
+#### options.random
+
+*An alternative numeric view*
+
+```
+var leet = new Leet({random: true}); 
+
+leet.encode('leet'); // ВЈ|=-ë77
+```
+
+
+#### Advanced rules
+
+You can set a personal hash-table like:
+
+*symbols*
+
+```
+var leet = new Leet; 
+
+leet.symbols = function () {
+	return {
+		a: ['@']
+	}
 };
 
-leet.encode('one'); // один 
+leet.encode('abc'); // @bc
 ```
 
-#### .set(Object)
-
-*Set the symbol position*
+*phrases*
 
 ```
-var leet = new Leet; 
+var leet = new Leet;
 
-leet.set({
-    c: 2, // <
-    d: 2  //[)
-});
+leet.phrases = function () {
+	return {
+		one: ['01']
+	}
+};
 
-leet.encode('cd'); // <[) 
+
+leet.encode('one2'); // 012
 ```
 
-#### .extend(String, Object)
-
-*Extends the existing rules*
-
-By symbol:
+*numeric*
 
 ```
-var leet = new Leet; 
+var leet = new Leet({numeric: true});
 
-leet.extend('symbols', {
-    a: '^',
-    b: ')3'
-});
+leet.phrases = function () {
+	return {
+		a: ['01']
+	}
+};
 
-leet.encode('ab'); ^)3
-```
-
-By phrase:
-
-```
-var leet = new Leet; 
-
-leet.extend('phrases', {
-    foo: 1,
-    bar: 2
-});
-
-leet.encode('foo bar'); // 1 2 
-```
-
-#### Leet(Boolean)
-
-*An alternative digital view*
-
-```
-var leet = new Leet(true); 
-
-leet.encode('leet'); // 073377 
+leet.encode('a2'); // 012
 ```
 
 
@@ -128,8 +159,7 @@ leet.encode('leet'); // 073377
 
 ```js
 {
-	a: ['/-\\', '@', '/*\\', '/=\\', '/\\', '^', 'aye', 'λ', 'ci', '@',
-		'Z', '(L', '∂', 4],
+	a: ['/-\\', '@', '/*\\', '/=\\', '/\\', '^', 'aye', 'λ', 'ci', 'Z', '(L', '∂', 4],
 	b: ['|3', 'I3', '!3', 'ß', '(3', '/3', ')3', '|-]', ']3', 'j3', 6, 13, 8],
 	c: ['[', '(', '<', '¢', '{', '©©', 'sea', 'see', 5],
 	d: [')', '|)', '[)', '(|', '∂', '])', '|}', '|]', 'I>', '|>', '?', 'T)', 'I7',
@@ -172,14 +202,73 @@ leet.encode('leet'); // 073377
 
 ```js
 {
-	'one':  1,     'two':   2,   'to':    2,
-	'too':  2,     'tree':  3,   'three': 3,
-	'four': 4,     'for':   4,   'five':  5,
-	'six':  6,     'seven': 7,   'eight': 8,
-	'ait':  8,     'ate':   8,   'eit':   8,
-	'nine': 9,     'ks':    'x', 'cs':    'x',
-	'and':  7,     'anned': 7,   'ant':   7,
-	'yeah': 'ya!', 'you':   'u', 'cool':  'k1'
+	'one'  : [1],
+	'two'  : [2],
+	'to'   : [2],
+	'too'  : [2],
+	'tree' : [3],
+	'three': [3],
+	'four' : [4],
+	'for'  : [4],
+	'five' : [5],
+	'six'  : [6],
+	'seven': [7],
+	'eight': [8],
+	'ait'  : [8],
+	'ate'  : [8],
+	'eit'  : [8],
+	'nine' : [9],
+	'ks'   : ['x'],
+	'cs'   : ['x'],
+	'and'  : [7],
+	'anned': [7],
+	'ant'  : [7],
+	'yeah' : ['ya!'],
+	'you'  : ['u'],
+	'cool' : ['k1']
+}
+```
+
+#### Default numeric values
+
+```js
+{
+	a: [4],
+	b: [6, 13, 8],
+	c: [5],
+	d: [0, 2],
+	e: [3],
+	f: [7],
+	g: [6, 9],
+	h: [6],
+	i: [1],
+	j: ['01'],
+	k: ['05'],
+	l: [1, 7, '07'],
+	m: [44, '02'],
+	n: ['03'],
+	o: [0, '08'],
+	p: [66],
+	q: [9, 2, 99],
+	r: [2, 44],
+	s: [5, 2, 55],
+	t: [7, 1, 77],
+	u: [88],
+	v: ['007'],
+	w: ['008'],
+	x: ['001'],
+	y: [7, '002'],
+	z: [2, '003'],
+	0: [0],
+	1: [1],
+	2: [2],
+	3: [3],
+	4: [4],
+	5: [5],
+	6: [6],
+	7: [7],
+	8: [8],
+	9: [9]
 }
 ```
 

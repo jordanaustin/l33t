@@ -1,3 +1,5 @@
+// -*- coding: utf-8 -*-
+
 /*!
  * l33t tests
  *
@@ -10,68 +12,92 @@
 var Leet = require('../../l33t');
 
 exports.tests = {
-	'set': function (test) {
+	'encode.symbols': function (test) {
 		var leet = new Leet;
 
-		leet.set({
-			c: 2, // <
-			d: 2  //[)
-		});
-
-		test.equal(leet.encode('cd'), '<[)');
+		test.equal(leet.encode('abcd'), '/-\\|3[)');
 		test.done();
 	},
 
-	'symbol-table': function (test) {
+	'encode.numeric': function (test) {
+		var leet = new Leet({numeric: true});
+
+		test.equal(leet.encode('abcd'), '4650');
+		test.done();
+	},
+
+	'set-symbols': function (test) {
 		var leet = new Leet;
 
-		leet.symbols = {
-			a: ['/-\\']
+		leet.set('symbols', {
+			c: '<',
+			d: '[)'
+		});
+
+		test.equal(leet.encode('abcd'), '/-\\|3<[)');
+		test.done();
+	},
+
+	'set-phrases': function (test) {
+		var leet = new Leet;
+
+		leet.set('phrases', {
+			one : 'один',
+			some: '<0M3',
+		});
+
+		test.equal(leet.encode('one two abcd some'), 'один 2 /-\\|3[) <0M3');
+		test.done();
+	},
+
+	'set-numeric': function (test) {
+		var leet = new Leet({ numeric: true });
+
+		leet.set('numeric', {
+			a: 0,
+			0: 1,
+		});
+
+		test.equal(leet.encode('one a 0'), '1 0 1');
+		test.done();
+	},
+
+	'custom.symbols': function (test) {
+		var leet = new Leet;
+
+		leet.symbols = function () {
+			return {
+				a: ['@']
+			}
 		};
 
-		test.equal(leet.encode('a'), '/-\\');
+		test.equal(leet.encode('ab'), '@b');
 		test.done();
 	},
 
-	'phrase-table': function (test) {
+	'custom.phrases': function (test) {
 		var leet = new Leet;
 
-		leet.phrases = {
-			one: ['один']
+		leet.phrases = function () {
+			return {
+				one: ['01']
+			}
 		};
 
-		test.equal(leet.encode('one'), 'один');
+		test.equal(leet.encode('one2'), '012');
 		test.done();
 	},
 
-	'extend-symbols': function (test) {
-		var leet = new Leet;
+	'custom.numeric': function (test) {
+		var leet = new Leet({numeric: true});
 
-		leet.extend('symbols', {
-			a: '^',
-			b: ')3'
-		});
+		leet.numeric = function () {
+			return {
+				a: ['01']
+			}
+		};
 
-		test.equal(leet.encode('ab'), '^)3');
-		test.done();
-	},
-
-	'extend-phrases': function (test) {
-		var leet = new Leet;
-
-		leet.extend('phrases', {
-			foo: 1,
-			bar: 2
-		});
-
-		test.equal(leet.encode('foo bar'), '1 2');
-		test.done();
-	},
-
-	'digital-view': function (test) {
-		var leet = new Leet(true);
-
-		test.equal(leet.encode('leet'), '073377');
+		test.equal(leet.encode('a2'), '012');
 		test.done();
 	}
 };

@@ -1,122 +1,91 @@
 // -*- coding: utf-8 -*-
 
 /**
- * Leet (or "1337"), also known as eleet or leetspeak,
- * is an alternative alphabet for the English language
- * that is used primarily on the Internet
+ * Universal Leet converter
  *
- * Object Leet ([Boolean digit = false])
- *
- * Use:
- * var leet = new Leet();
+ * Using:
+ * var leet = new Leet;
  *
  * // *Set the symbol position
- * leet.set({
- *    a: 1, //@
- *    b: 2  //Гџ
+ * leet.set('symbols', {
+ *    a: '@'
+ *    b: 'Гџ'
  *  });
  *
- * // Extends the existing rules:
- * leet.extend('phrases', {
- *    foo: 1,
- *    bar: 2
- * });
- *
- * // Extends the existing set of symbols
- * // Note you'd to escape sequences like ',",\
- * leet.extend('symbols', {
- *    a: '/-\\',
- *    b: '\\>>'
- * });
- *
  * // Encode
- * var encode = leet.encode('foo is a big bar');
- *
- * // Result
- * console.log(encode); //1 !$ /-\\ \\>>![, 2
+ * leet.encode('abcd'); // @Гџ[)
  *
  * @author: Alexander Abashkin
- * @params: {Boolean} [ digit ] - An alternative digital view
  * @license: MIT, 2012
  */
 
 'use strict';
 
-var symbols = require('./maps/symbols'),
-	phrases = require('./maps/phrases'),
-	iterate = require('./utils/iterate');
+var exports = require('./maps/exports'),
+	iterate = require('./utils/iterate'),
+	log = require('./utils/log');
 
-var Leet = function (digit) {
-	this.digit = digit;
+/*
+* @constructor
+* @param {Object} options — {
+*   numeric - An alternative numerical view
+*   random  - Randomize results
+* }
+*/
+var Leet = function (options) {
+	this.options = options || {};
 };
 
 Leet.prototype = {
 	constructor: Leet,
 
-	/* Orthography list of the characters */
-	symbols: symbols,
+	/* The symbol combinations */
+	symbols: exports.symbols,
 
-	/** Orthography list of the digits */
-	phrases: phrases,
+	/* The phrase combinations */
+	phrases: exports.phrases,
 
-	cache: [],
+	/* The numeric combinations */
+	numeric: exports.numeric,
 
 	/*
-	* Set the symbol position
+	* Set data
+	*
+	* @param {string} type
 	* @param {Object} data
 	*/
-	set: function (data) {
-		this.cache.push(data);
-	},
+	set: function (type, data) {
+		if (!(type in this)) {
+			log.fail('Leet#set', 'Has been used non standard map',
+				'"' + type + '"');
+		}
 
-	/*
-	* Returns the symbol position
-	*
-	* @param {number} symbol;
-	* @return {number};
-	*/
-	find: function (symbol) {
-		var items = {};
+		iterate(data, function (value, key) {
+			var list = this[type]();
 
-		// Set default positions
-		iterate(this.symbols, function (value, key) {
-			items[key] = 0;
-		});
-
-		// Set user positions
-		this.cache.forEach(function (values) {
-			iterate(values, function (value, key) {
-				items[key] = value;
-			});
-		}, this);
-
-		return items[symbol] | 0;
-	},
-
-	/*
-	* Extends the existing rules:
-	*   - this.symbols
-	*   - this.phrases
-	*
-	* Use:
-	*   leet.extend('phrases', {
-	*       foo: 1,
-	*       bar: 2
-	*   });
-	*
-	*  @param {string} item
-	*  @param {Object} values
-	*/
-	extend: function (name, values) {
-		iterate(values, function (value, key) {
-			if (name == 'symbols') {
-				this.symbols[key].unshift(value);
+			if (!list[key]) {
+				list[key] = [value];
 			}
-			else if (name == 'phrases') {
-				this.phrases[key] = value;
+			else {
+				var position = list[key].indexOf(value);
+
+				if (position === 0) {
+					return 0;
+				}
+				else if (position !== -1) {
+					list[key].splice(position, 1);
+				}
+
+				list[key].unshift(value);
 			}
+
+			this[type] = function () {
+				return list;
+			};
+
 		}, this);
 	},
+
 
 	/*
 	* Encodes the Latin characters in the Leet sequence
@@ -124,24 +93,25 @@ Leet.prototype = {
 	* @param {string} string
 	* @return {string}
 	*/
-	encode: function (string) {
+	encode: function (text) {
+		var phrases = this.phrases();
+
 		// The phrases should be replaced at first
-		iterate(this.phrases, function (value, key) {
-			string = string.replace(new RegExp(key, 'g'), value);
+		iterate(phrases, function (value, key) {
+			var item = value[this.position(phrases, key)];
+			text = text.replace(new RegExp(key, 'g'), item);
 		}, this);
 
 		// Replace the remaining characters
-		return string.replace(/./g, function (item) {
-			var symbol = this.symbols[item];
+		return text.replace(/./g, function (item) {
+			var list = this.symbols();
 
-			if (item in this.symbols) {
-				//console.log(symbol, this.find(item));
+			if (this.options.numeric) {
+				list = this.numeric();
+			}
 
-				if (this.digit) {
-					return symbol[symbol.length - 1];
-				}
-
-				return symbol[this.find(item)];
+			if (item in list) {
+				return list[item][this.position(list, item)];
 			}
 
 			return item;
@@ -160,6 +130,21 @@ Leet.prototype = {
 		*   - not always a bijective mapping
 		*   - see https://www.google.com/webhp?hl=xx-hacker
 		*/
+	},
+
+	/*
+	* Get used position
+	*
+	* @private
+	* @param {Object} list — {symbols, phrases, numeric}
+	* @return {number}
+	*/
+	position: function (list, key) {
+		if (this.options.random) {
+			return Math.floor(Math.random() * list[key].length);
+		}
+
+		return 0;
 	}
 };
 
