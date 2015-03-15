@@ -71,7 +71,7 @@ leet.encode('one two abcd some'); // один 2 /-\\|3[) <0M3
 
 #### .numeric
 
-*Use the custom numeric values*
+*Use the custom numeric combinations*
 
 ```js
 var leet = new Leet({ numeric: true });
@@ -108,7 +108,7 @@ leet.encode('leet'); // ВЈ|=-ë77
 
 #### Advanced rules
 
-You can set a personal hash-table like:
+You can set a personal hash-table with more combinations like:
 
 *symbols*
 
@@ -154,7 +154,7 @@ leet.encode('a2'); // 012
 ```
 
 
-#### Default symbols
+#### Default symbol combinations
 
 ```js
 {
@@ -197,7 +197,7 @@ leet.encode('a2'); // 012
 };
 ```
 
-#### Default phrases
+#### Default phrase combinations
 
 ```js
 {
@@ -228,7 +228,7 @@ leet.encode('a2'); // 012
 }
 ```
 
-#### Default numeric values
+#### Default numeric combinations
 
 ```js
 {

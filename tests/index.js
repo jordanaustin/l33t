@@ -26,6 +26,15 @@ exports.tests = {
 		test.done();
 	},
 
+	/*
+	'encode.random': function (test) {
+		var leet = new Leet({random: true});
+
+		test.equal(leet.encode('leet'), '1|=-€77');
+		test.done();
+	},
+	*/
+
 	'set-symbols': function (test) {
 		var leet = new Leet;
 
