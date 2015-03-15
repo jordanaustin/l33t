@@ -32,8 +32,7 @@ npm install l33t --save-dev
 ## Using
 *For example you could use the following code:*
 
-```javascript
-
+```js
 var leet = new Leet;
 leet.encode('leet'); // |_[-[-+
 ```
@@ -44,7 +43,7 @@ leet.encode('leet'); // |_[-[-+
 
 *Use the custom symbols*
 
-```
+```js
 var leet = new Leet; 
 
 leet.set('symbols', {
@@ -59,7 +58,7 @@ leet.encode('abcd'); /-\\|3<[)
 
 *Use the custom phrases*
 
-```
+```js
 var leet = new Leet; 
 
 leet.set('phrases', {
@@ -74,7 +73,7 @@ leet.encode('one two abcd some'); // один 2 /-\\|3[) <0M3
 
 *Use the custom numeric values*
 
-```
+```js
 var leet = new Leet({ numeric: true });
 
 leet.set('numeric', {
@@ -90,7 +89,7 @@ leet.encode('one a 0'); // 1 0 1
 
 *An alternative numeric view*
 
-```
+```js
 var leet = new Leet({numeric: true}); 
 
 leet.encode('leet'); // 1337
@@ -100,7 +99,7 @@ leet.encode('leet'); // 1337
 
 *Randomize results*
 
-```
+```js
 var leet = new Leet({random: true}); 
 
 leet.encode('leet'); // ВЈ|=-ë77
@@ -113,7 +112,7 @@ You can set a personal hash-table like:
 
 *symbols*
 
-```
+```js
 var leet = new Leet; 
 
 leet.symbols = function () {
@@ -127,7 +126,7 @@ leet.encode('abc'); // @bc
 
 *phrases*
 
-```
+```js
 var leet = new Leet;
 
 leet.phrases = function () {
@@ -142,7 +141,7 @@ leet.encode('one2'); // 012
 
 *numeric*
 
-```
+```js
 var leet = new Leet({numeric: true});
 
 leet.phrases = function () {
