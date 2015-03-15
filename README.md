@@ -42,7 +42,7 @@ leet.encode('leet'); // |_[-[-+
 
 #### .set
 
-*Use custom symbol*
+*Use the custom symbols*
 
 ```
 var leet = new Leet; 
@@ -57,7 +57,7 @@ leet.encode('abcd'); /-\\|3<[)
 
 #### .phrases
 
-*Use custom phrases*
+*Use the custom phrases*
 
 ```
 var leet = new Leet; 
@@ -72,7 +72,7 @@ leet.encode('one two abcd some'); // один 2 /-\\|3[) <0M3
 
 #### .numeric
 
-*Use custom phrases*
+*Use the custom numeric values*
 
 ```
 var leet = new Leet({ numeric: true });
@@ -98,7 +98,7 @@ leet.encode('leet'); // 1337
 
 #### options.random
 
-*An alternative numeric view*
+*Randomize results*
 
 ```
 var leet = new Leet({random: true}); 
