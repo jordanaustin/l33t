@@ -4,7 +4,7 @@
 	"author" : "Abashkin Alexander <monolithed@gmail.com>",
 	"homepage": "https://github.com/monolithed/l33t.git",
 
-	"description": "Leet (or '1337'), also known as eleet or leetspeak is an alternative alphabet for the English language that is used primarily on the Internet.",
+	"description": "Universal Leet converter.",
 
 	"keywords": [ "leet", "1337", "eleet", "leetspeak" ],
 
